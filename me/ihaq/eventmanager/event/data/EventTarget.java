@@ -1,4 +1,4 @@
-package me.ihaq.eventmanager.event;
+package me.ihaq.eventmanager.event.data;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,9 +8,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventTarget {
-
-    Class<? extends Event>[] events() default {};
-
     EventPriority priority() default EventPriority.MEDIUM;
-
 }

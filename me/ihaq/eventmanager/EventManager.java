@@ -1,8 +1,8 @@
 package me.ihaq.eventmanager;
 
 import me.ihaq.eventmanager.event.Event;
-import me.ihaq.eventmanager.event.EventData;
-import me.ihaq.eventmanager.event.EventTarget;
+import me.ihaq.eventmanager.event.data.EventData;
+import me.ihaq.eventmanager.event.data.EventTarget;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public enum EventManager {
     public void register(Object o) {
 
         Arrays.stream(o.getClass().getDeclaredMethods()).forEach(method -> {
-            if (method.getParameterTypes().length == 1 && method.isAnnotationPresent(EventTarget.class))
+            if (isMethodValid(method))
                 register(method, o);
         });
 
@@ -32,35 +32,28 @@ public enum EventManager {
     @SuppressWarnings("unchecked")
     private void register(Method method, Object object) {
 
+        EventData eventData = new EventData(object, method, method.getAnnotation(EventTarget.class).priority());
+        Class<? extends Event> eventClass = (Class<? extends Event>) method.getParameterTypes()[0];
 
-        if (method.getAnnotation(EventTarget.class).events().length > 0) {
+        if (!eventData.getTarget().isAccessible())
+            eventData.getTarget().setAccessible(true);
 
-            Class<? extends Event>[] classes = method.getAnnotation(EventTarget.class).events();
-
-            Arrays.stream(classes).forEach(clazz -> registerEvent(new EventData(object, method, method.getAnnotation(EventTarget.class).priority()), clazz));
-
+        if (REGISTRY_MAP.containsKey(eventClass)) {
+            if (!REGISTRY_MAP.get(eventClass).contains(eventData))
+                REGISTRY_MAP.get(eventClass).add(eventData);
         } else {
-            registerEvent(new EventData(object, method, method.getAnnotation(EventTarget.class).priority()), (Class<? extends Event>) method.getParameterTypes()[0]);
+            REGISTRY_MAP.put(eventClass, new CopyOnWriteArrayList<>(Collections.singletonList(eventData)));
         }
-
     }
 
 
-    public void unRegister(Object o) {
+    public void unregister(Object o) {
         REGISTRY_MAP.values().forEach(flexibleArray -> flexibleArray.removeIf(methodData -> methodData.getSource().equals(o)));
         REGISTRY_MAP.entrySet().removeIf(hashSetEntry -> hashSetEntry.getValue().isEmpty());
     }
 
-    private void registerEvent(EventData eventData, Class<? extends Event> clazz) {
-        if (!eventData.getTarget().isAccessible())
-            eventData.getTarget().setAccessible(true);
-
-        if (REGISTRY_MAP.containsKey(clazz)) {
-            if (!REGISTRY_MAP.get(clazz).contains(eventData))
-                REGISTRY_MAP.get(clazz).add(eventData);
-        } else {
-            REGISTRY_MAP.put(clazz, new CopyOnWriteArrayList<>(Collections.singletonList(eventData)));
-        }
+    private boolean isMethodValid(Method method) {
+        return method.getParameterTypes().length == 1 && method.isAnnotationPresent(EventTarget.class) && Event.class.isAssignableFrom(method.getParameterTypes()[0]);
     }
 
     public CopyOnWriteArrayList<EventData> get(Class<? extends Event> clazz) {

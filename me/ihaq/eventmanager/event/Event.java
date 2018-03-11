@@ -1,18 +1,18 @@
 package me.ihaq.eventmanager.event;
 
 import me.ihaq.eventmanager.EventManager;
+import me.ihaq.eventmanager.event.data.EventData;
+import me.ihaq.eventmanager.event.data.EventType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Event {
 
-    private boolean cancelled;
     private EventType type;
 
     public Event(EventType type) {
         this.type = type;
-        this.cancelled = false;
     }
 
     public void call() {
@@ -36,14 +36,6 @@ public abstract class Event {
 
     public EventType getType() {
         return type;
-    }
-
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
     }
 
 }
