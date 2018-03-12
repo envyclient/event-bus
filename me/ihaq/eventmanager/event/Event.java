@@ -1,10 +1,10 @@
 package me.ihaq.eventmanager.event;
 
 import me.ihaq.eventmanager.EventManager;
+import me.ihaq.eventmanager.event.data.EventData;
 import me.ihaq.eventmanager.event.data.EventType;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Event {
 
@@ -14,8 +14,15 @@ public abstract class Event {
         this.type = type;
     }
 
+    @SuppressWarnings("unchecked")
     public void fire() {
-        Objects.requireNonNull(EventManager.INSTANCE.getData(getClass())).forEach(eventData -> eventData.getListener().onEvent(this));
+
+        CopyOnWriteArrayList<EventData> eventDatalist = EventManager.INSTANCE.getData(getClass());
+
+        if (eventDatalist == null)
+            return;
+
+        eventDatalist.forEach(eventData -> eventData.getListener().onEvent(this));
     }
 
     public EventType getType() {

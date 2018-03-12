@@ -1,6 +1,7 @@
 package me.ihaq.eventmanager.event.listener;
 
 import me.ihaq.eventmanager.event.Event;
+import net.jodah.typetools.TypeResolver;
 
 public final class EventListener<T extends Event> implements EventHook<T> {
 
@@ -10,6 +11,7 @@ public final class EventListener<T extends Event> implements EventHook<T> {
     @SuppressWarnings("unchecked")
     public EventListener(EventHook<T> eventHook) {
         this.eventHook = eventHook;
+        this.target = (Class<T>) TypeResolver.resolveRawArgument(EventHook.class, eventHook.getClass());
     }
 
     @Override
@@ -20,4 +22,5 @@ public final class EventListener<T extends Event> implements EventHook<T> {
     public Class<T> getTarget() {
         return target;
     }
+
 }

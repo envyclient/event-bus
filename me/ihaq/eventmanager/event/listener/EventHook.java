@@ -1,8 +1,6 @@
 package me.ihaq.eventmanager.event.listener;
 
-import me.ihaq.eventmanager.event.Event;
-
 @FunctionalInterface
-public interface EventHook<T extends Event> {
+public interface EventHook<T> {
     void onEvent(T event);
 }

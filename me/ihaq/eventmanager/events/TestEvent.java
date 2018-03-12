@@ -8,8 +8,8 @@ public class TestEvent extends Event implements Cancellable {
 
     private boolean cancelled;
 
-    public TestEvent() {
-        super(EventType.PRE);
+    public TestEvent(EventType eventType) {
+        super(eventType);
     }
 
     @Override
