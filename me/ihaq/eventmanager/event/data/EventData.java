@@ -1,16 +1,16 @@
 package me.ihaq.eventmanager.event.data;
 
-import java.lang.reflect.Method;
+import me.ihaq.eventmanager.event.listener.EventListener;
 
 public class EventData {
 
     private Object source;
-    private Method target;
+    private EventListener listener;
     private EventPriority priority;
 
-    public EventData(Object source, Method target, EventPriority priority) {
+    public EventData(Object source, EventListener listener, EventPriority priority) {
         this.source = source;
-        this.target = target;
+        this.listener = listener;
         this.priority = priority;
     }
 
@@ -18,8 +18,8 @@ public class EventData {
         return source;
     }
 
-    public Method getTarget() {
-        return target;
+    public EventListener getListener() {
+        return listener;
     }
 
     public EventPriority getPriority() {

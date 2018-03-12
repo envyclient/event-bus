@@ -1,23 +1,27 @@
 package me.ihaq.eventmanager;
 
-import me.ihaq.eventmanager.event.data.EventTarget;
+import me.ihaq.eventmanager.event.listener.EventListener;
 import me.ihaq.eventmanager.events.TestEvent;
 
 public class Main {
 
+
     public static void main(String[] args) {
+
         EventManager.INSTANCE.register(new Object() {
 
+            public EventListener<TestEvent> testEventEventListener = new EventListener<TestEvent>() {
 
-            @EventTarget
-            private void event(EventManager e) {
+                @Override
+                public void onEvent(Object e) {
 
-            }
+                }
 
-
+            };
         });
 
-        new TestEvent().call();
+        TestEvent testEvent = new TestEvent();
+        testEvent.fire();
     }
 
 }

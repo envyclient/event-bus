@@ -1,6 +1,7 @@
 package me.ihaq.eventmanager.event.data;
 
-public enum EventPriority {
+public enum
+EventPriority {
 
     LOW(0), MEDIUM(1), HIGH(2);
 
