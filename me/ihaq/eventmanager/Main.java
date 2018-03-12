@@ -1,6 +1,7 @@
 package me.ihaq.eventmanager;
 
 import me.ihaq.eventmanager.event.listener.EventListener;
+import me.ihaq.eventmanager.event.listener.EventTarget;
 import me.ihaq.eventmanager.events.TestEvent;
 
 public class Main {
@@ -10,18 +11,15 @@ public class Main {
 
         EventManager.INSTANCE.register(new Object() {
 
-            public EventListener<TestEvent> testEventEventListener = new EventListener<TestEvent>() {
+            @EventTarget
+            public EventListener<TestEvent> listener = new EventListener<>(event -> {
 
-                @Override
-                public void onEvent(Object e) {
-
-                }
-
-            };
+            });
+            
         });
 
         TestEvent testEvent = new TestEvent();
-        testEvent.fire();
+        //testEvent.fire();
     }
 
 }

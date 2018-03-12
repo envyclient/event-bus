@@ -36,10 +36,7 @@ public enum EventManager {
 
             EventListener eventListener = (EventListener) field.get(object);
             EventData eventData = new EventData(object, eventListener, field.getAnnotation(EventTarget.class).priority());
-            Class<?> eventClass = null;
-            ;
-
-            System.out.println(eventListener.getClass().getTypeName());
+            Class<? extends Event> eventClass = (Class<? extends Event>) eventListener.getTarget();
 
             if (REGISTRY_MAP.containsKey(eventClass)) {
                 if (!REGISTRY_MAP.get(eventClass).contains(eventData))
