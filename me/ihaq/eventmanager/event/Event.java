@@ -4,6 +4,8 @@ import me.ihaq.eventmanager.EventManager;
 import me.ihaq.eventmanager.event.data.EventData;
 import me.ihaq.eventmanager.event.data.EventType;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Event {
@@ -17,12 +19,20 @@ public abstract class Event {
     @SuppressWarnings("unchecked")
     public void fire() {
 
-        CopyOnWriteArrayList<EventData> eventDatalist = EventManager.INSTANCE.getData(getClass());
+        List<EventData> dataList = EventManager.INSTANCE.getEventsData(getClass());
 
-        if (eventDatalist == null)
+        if (dataList == null)
             return;
 
-        eventDatalist.forEach(eventData -> eventData.getListener().onEvent(this));
+        dataList.forEach(data -> {
+
+            try {
+                data.getTarget().invoke(data.getSource(), this);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
+        });
     }
 
     public EventType getType() {

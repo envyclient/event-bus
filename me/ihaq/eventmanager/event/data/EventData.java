@@ -1,25 +1,28 @@
 package me.ihaq.eventmanager.event.data;
 
-import me.ihaq.eventmanager.event.listener.EventListener;
+import java.lang.reflect.Method;
 
 public class EventData {
 
     private Object source;
-    private EventListener listener;
+    private Method target;
     private EventPriority priority;
 
-    public EventData(Object source, EventListener listener, EventPriority priority) {
+    public EventData(Object source, Method target, EventPriority priority) {
         this.source = source;
-        this.listener = listener;
+        this.target = target;
         this.priority = priority;
+
+        if (!target.isAccessible())
+            target.setAccessible(true);
     }
 
     public Object getSource() {
         return source;
     }
 
-    public EventListener getListener() {
-        return listener;
+    public Method getTarget() {
+        return target;
     }
 
     public EventPriority getPriority() {

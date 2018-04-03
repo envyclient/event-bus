@@ -5,11 +5,22 @@ A simple java event manager.
 ## Creating an event
 
 ```java
+// Normal event
+public class TestEvent extends Event  {
+
+    public TestEvent(EventType type) {
+        super(type); // The event type can be SINGLE, PRE, and POST.
+    }
+
+}
+```
+
+```java
+// Cancellable event
 public class TestEvent extends Event implements Cancellable {
 
     private boolean cancelled;
 
-    
     public TestEvent(EventType type) {
         super(type); // The event type can be SINGLE, PRE, and POST.
     }
@@ -34,7 +45,7 @@ public class Main {
 
         EventManager.INSTANCE.register(new Object() {
 
-            @EventTarget // Every method listing for the event must have @EventTarget annotation.
+            @EventTarget // Every method listening for an event must have the @EventTarget annotation.
             public void onTestEvent(TestEvent e) { // Every method must only have 1 parameter, and that parameter has to be an instance of the Event class.
                 System.out.println("test");
             }
@@ -43,7 +54,6 @@ public class Main {
     }
 
 }
-
 ```
 
 ## Firing an event
@@ -51,9 +61,11 @@ public class Main {
 public class Main {
 
     public static void main(String[] args) {
-        TestEvent testEvent = new Test
+       new TestEvent().fire();
     }
 
 }
-
 ```
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
