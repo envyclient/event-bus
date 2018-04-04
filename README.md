@@ -16,10 +16,6 @@ A simple java event manager.
 
     private boolean cancelled;
 
-    public TestEvent(EventType type) {
-        super(type); // The event type can be SINGLE, PRE, and POST.
-    }
-
     @Override
     public boolean isCancelled() {
         return cancelled;
