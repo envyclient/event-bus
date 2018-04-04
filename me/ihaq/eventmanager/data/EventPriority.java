@@ -1,4 +1,4 @@
-package me.ihaq.eventmanager.event.data;
+package me.ihaq.eventmanager.data;
 
 public enum EventPriority {
 

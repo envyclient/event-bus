@@ -1,6 +1,6 @@
-package me.ihaq.eventmanager.event.listener;
+package me.ihaq.eventmanager.listener;
 
-import me.ihaq.eventmanager.event.data.EventPriority;
+import me.ihaq.eventmanager.data.EventPriority;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

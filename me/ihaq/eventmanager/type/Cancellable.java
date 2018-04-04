@@ -1,4 +1,4 @@
-package me.ihaq.eventmanager.event.type;
+package me.ihaq.eventmanager.type;
 
 public interface Cancellable {
 
