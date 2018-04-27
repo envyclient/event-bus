@@ -1,6 +1,8 @@
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg) ](LICENSE)
+
 # EventManager
 
-A simple java event manager.
+A simple Java event manager.
 
 ## Creating an event
 
@@ -30,7 +32,7 @@ A simple java event manager.
 
 ```java
     // Type event, can be PRE or POST
-    public class TestEvent extends Event implements Type {
+    public class TestEvent extends Event Type {
 
         private EventType type;
 
@@ -51,13 +53,15 @@ public class Main {
 
     public static void main(String[] args) {
 
+        EventManager eventManager = new EventManager();
+
         Test test = new Test();
 
         // registering
-        EventManager.INSTANCE.register(test);
+        eventManager.register(test);
 
         // un-registering
-        EventManager.INSTANCE.unregister(test);
+        eventManager.unregister(test);
     }
 
     // Every class you register must implement Listener
@@ -69,6 +73,11 @@ public class Main {
         }
 
     }
+
+    // Example event
+    public class TestEvent extends Event  {
+    }
+
 }
 ```
 
@@ -77,11 +86,12 @@ public class Main {
 public class Main {
 
     public static void main(String[] args) {
-       new TestEvent().call();
+       new EventManager().callEvent(new TestEvent())
+    }
+
+    // Example event
+    public class TestEvent extends Event  {
     }
 
 }
 ```
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
