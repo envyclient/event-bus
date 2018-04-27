@@ -1,3 +1,4 @@
+[ ![Download](https://api.bintray.com/packages/ihaq/maven/event-manager/images/download.svg) ](https://bintray.com/ihaq/maven/event-manager/_latestVersion)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg) ](LICENSE)
 
 # EventManager
@@ -93,5 +94,36 @@ public class Main {
     public class TestEvent extends Event  {
     }
 
+}
+```
+
+## Download
+[ ![Download](https://api.bintray.com/packages/ihaq/maven/config-manager/images/download.svg) ](https://bintray.com/ihaq/maven/config-manager/_latestVersion)
+
+Replace VERSION with the verion above.
+
+#### Maven
+```xml
+<repository>
+    <id>jcenter</id>
+    <name>jcenter-bintray</name>
+    <url>http://jcenter.bintray.com</url>
+</repository>
+
+<dependency>
+    <groupId>me.ihaq.eventmanager</groupId>
+    <artifactId>event-manager</artifactId>
+    <version>VERSION</version>
+</dependency>
+```
+
+#### Gradle
+```gradle
+dependencies {
+    compile 'me.ihaq.configmanager:ConfigManager:VERSION'
+}
+
+repositories {
+    jcenter()
 }
 ```
