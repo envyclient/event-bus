@@ -120,7 +120,7 @@ Replace VERSION with the verion above.
 #### Gradle
 ```gradle
 dependencies {
-    compile 'me.ihaq.configmanager:ConfigManager:VERSION'
+    compile 'me.ihaq.eventmanager:event-manager:VERSION'
 }
 
 repositories {
