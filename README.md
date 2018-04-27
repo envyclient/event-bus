@@ -98,7 +98,7 @@ public class Main {
 ```
 
 ## Download
-[ ![Download](https://api.bintray.com/packages/ihaq/maven/config-manager/images/download.svg) ](https://bintray.com/ihaq/maven/config-manager/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/ihaq/maven/event-manager/images/download.svg) ](https://bintray.com/ihaq/maven/event-manager/_latestVersion)
 
 Replace VERSION with the verion above.
 
