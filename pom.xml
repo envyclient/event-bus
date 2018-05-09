@@ -8,6 +8,13 @@
     <artifactId>event-manager</artifactId>
     <version>1.0</version>
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>1.0-beta-6</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -19,4 +26,13 @@
             </plugin>
         </plugins>
     </build>
+
+
+    <distributionManagement>
+        <repository>
+            <id>envyclient-maven</id>
+            <url>scpexe://envyclient.com/home/envycli1/maven.envyclient.com</url>
+        </repository>
+    </distributionManagement>
+
 </project>
