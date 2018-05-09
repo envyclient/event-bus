@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.ihaq.eventmanager</groupId>
+    <groupId>me.ihaq</groupId>
     <artifactId>event-manager</artifactId>
     <version>1.0</version>
     <build>
@@ -19,13 +19,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>bintray-ihaq-maven</id>
-            <name>ihaq-maven</name>
-            <url>https://api.bintray.com/maven/ihaq/maven/event-manager/;publish=1</url>
-        </repository>
-    </distributionManagement>
-
 </project>
