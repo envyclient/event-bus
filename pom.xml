@@ -11,8 +11,8 @@
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh-external</artifactId>
-                <version>1.0-beta-6</version>
+                <artifactId>wagon-ftp</artifactId>
+                <version>3.0.0</version>
             </extension>
         </extensions>
         <plugins>
@@ -30,8 +30,8 @@
 
     <distributionManagement>
         <repository>
-            <id>envyclient-maven</id>
-            <url>scpexe://envyclient.com/home/envycli1/maven.envyclient.com</url>
+            <id>ihaq-maven</id>
+            <url>ftp://ftp.ihaq.me/maven.ihaq.me/</url>
         </repository>
     </distributionManagement>
 

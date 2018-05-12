@@ -1,4 +1,3 @@
-[ ![Download](https://api.bintray.com/packages/ihaq/maven/event-manager/images/download.svg) ](https://bintray.com/ihaq/maven/event-manager/_latestVersion)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg) ](LICENSE)
 
 # EventManager
@@ -33,7 +32,7 @@ A simple Java event manager.
 
 ```java
     // Type event, can be PRE or POST
-    public class TestEvent extends Event Type {
+    public class TestEvent extends Event implements Type {
 
         private EventType type;
 
@@ -98,32 +97,31 @@ public class Main {
 ```
 
 ## Download
-[ ![Download](https://api.bintray.com/packages/ihaq/maven/event-manager/images/download.svg) ](https://bintray.com/ihaq/maven/event-manager/_latestVersion)
-
-Replace VERSION with the verion above.
 
 #### Maven
 ```xml
 <repository>
-    <id>jcenter</id>
-    <name>jcenter-bintray</name>
-    <url>http://jcenter.bintray.com</url>
+    <id>ihaq-me</id>
+    <name>ihaq-maven</name>
+    <url>http://maven.ihaq.me</url>
 </repository>
 
 <dependency>
-    <groupId>me.ihaq.eventmanager</groupId>
+    <groupId>me.ihaq</groupId>
     <artifactId>event-manager</artifactId>
-    <version>VERSION</version>
+    <version>1.0</version>
 </dependency>
 ```
 
 #### Gradle
 ```gradle
-dependencies {
-    compile 'me.ihaq.eventmanager:event-manager:VERSION'
+repositories {
+    maven {
+        url "http://maven.ihaq.me"
+    }
 }
 
-repositories {
-    jcenter()
+dependencies {
+    compile 'me.ihaq:event-manager:1.0'
 }
 ```
