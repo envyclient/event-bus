@@ -1,7 +1,7 @@
 import me.ihaq.eventmanager.Event;
 import me.ihaq.eventmanager.EventManager;
+import me.ihaq.eventmanager.listener.EventListener;
 import me.ihaq.eventmanager.listener.EventTarget;
-import me.ihaq.eventmanager.listener.Listener;
 
 public class Main {
 
@@ -20,8 +20,8 @@ public class Main {
         eventManager.unregister(test);
     }
 
-    // Every class you register must implement Listener
-    private static class Test implements Listener {
+    // Every class you register must implement EventListener
+    private static class Test implements EventListener {
 
         @EventTarget
         public void onEvent(TestEvent event) {

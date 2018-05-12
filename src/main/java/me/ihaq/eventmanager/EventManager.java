@@ -2,7 +2,7 @@ package me.ihaq.eventmanager;
 
 import me.ihaq.eventmanager.data.EventData;
 import me.ihaq.eventmanager.listener.EventTarget;
-import me.ihaq.eventmanager.listener.Listener;
+import me.ihaq.eventmanager.listener.EventListener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,11 +19,11 @@ public class EventManager {
     private final Map<Class<? extends Event>, List<EventData>> registryMap = new HashMap<>();
 
     @SuppressWarnings("unchecked")
-    public void register(Listener... listeners) {
+    public void register(EventListener... eventListeners) {
 
-        // looping through all the methods in the listeners and adding them to registryMap if they are valid
-        Arrays.stream(listeners)
-                .forEach(listener -> Arrays.stream(listener.getClass().getDeclaredMethods())
+        // looping through all the methods in the eventListeners and adding them to registryMap if they are valid
+        Arrays.stream(eventListeners)
+                .forEach(eventListener -> Arrays.stream(eventListener.getClass().getDeclaredMethods())
                         .filter(this::isMethodValid)
                         .forEach(method -> {
 
@@ -31,7 +31,7 @@ public class EventManager {
                                 method.setAccessible(true);
 
                             Class<? extends Event> clazz = (Class<? extends Event>) method.getParameterTypes()[0];
-                            EventData eventData = new EventData(listener, method, method.getAnnotation(EventTarget.class).value());
+                            EventData eventData = new EventData(eventListener, method, method.getAnnotation(EventTarget.class).value());
 
                             List<EventData> list = registryMap.getOrDefault(clazz, new CopyOnWriteArrayList<>());
 
@@ -46,10 +46,10 @@ public class EventManager {
                 .forEach(eventDataList -> eventDataList.sort(((o1, o2) -> (o1.getPriority().getValue() - o2.getPriority().getValue()))));
     }
 
-    public void unregister(Listener... listeners) {
-        Arrays.stream(listeners)
-                .forEach(listener -> registryMap.values()
-                        .forEach(eventDataList -> eventDataList.removeIf(field -> field.getListener() == listener)));
+    public void unregister(EventListener... eventListeners) {
+        Arrays.stream(eventListeners)
+                .forEach(eventListener -> registryMap.values()
+                        .forEach(eventDataList -> eventDataList.removeIf(field -> field.getEventListener() == eventListener)));
 
         // cleaning up the registryMap by removing any empty lists
         registryMap.entrySet()
@@ -68,7 +68,7 @@ public class EventManager {
 
         dataList.forEach(data -> {
             try {
-                data.getMethod().invoke(data.getListener(), event);
+                data.getMethod().invoke(data.getEventListener(), event);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }

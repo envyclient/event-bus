@@ -1,24 +1,24 @@
 package me.ihaq.eventmanager.data;
 
-import me.ihaq.eventmanager.listener.Listener;
+import me.ihaq.eventmanager.listener.EventListener;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
 
 public class EventData {
 
-    private Listener listener;
+    private EventListener eventListener;
     private Method method;
     private EventPriority priority;
 
-    public EventData(Listener listener, Method method, EventPriority priority) {
-        this.listener = listener;
+    public EventData(EventListener eventListener, Method method, EventPriority priority) {
+        this.eventListener = eventListener;
         this.method = method;
         this.priority = priority;
     }
 
-    public Listener getListener() {
-        return listener;
+    public EventListener getEventListener() {
+        return eventListener;
     }
 
     public Method getMethod() {
@@ -34,13 +34,13 @@ public class EventData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventData eventData = (EventData) o;
-        return Objects.equals(listener, eventData.listener) &&
+        return Objects.equals(eventListener, eventData.eventListener) &&
                 Objects.equals(method, eventData.method) &&
                 priority == eventData.priority;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(listener, method, priority);
+        return Objects.hash(eventListener, method, priority);
     }
 }

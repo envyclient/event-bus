@@ -1,4 +1,4 @@
 package me.ihaq.eventmanager.listener;
 
-public interface Listener {
+public interface EventListener {
 }
