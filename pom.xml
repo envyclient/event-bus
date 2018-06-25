@@ -8,13 +8,6 @@
     <artifactId>event-manager</artifactId>
     <version>1.0</version>
     <build>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>3.0.0</version>
-            </extension>
-        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -27,11 +20,10 @@
         </plugins>
     </build>
 
-
     <distributionManagement>
         <repository>
             <id>ihaq-maven</id>
-            <url>ftp://ftp.ihaq.me/maven.ihaq.me/</url>
+            <url>http://maven.ihaq.me:8080/repository/public/</url>
         </repository>
     </distributionManagement>
 
