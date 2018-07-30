@@ -102,7 +102,7 @@ public class Main {
 ```xml
 <repository>
     <id>ihaq-maven</id>
-    <url>http://maven.ihaq.me/artifactory/libs-maven/</url>
+    <url>http://maven.ihaq.me/libs-maven/</url>
 </repository>
 
 <dependency>
@@ -116,7 +116,7 @@ public class Main {
 ```gradle
 repositories {
     maven {
-        url "http://maven.ihaq.me/artifactory/libs-maven/"
+        url "http://maven.ihaq.me/libs-maven/"
     }
 }
 
