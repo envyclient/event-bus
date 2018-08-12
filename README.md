@@ -86,7 +86,7 @@ public class Main {
 public class Main {
 
     public static void main(String[] args) {
-       new EventManager().callEvent(new TestEvent())
+       new EventManager().callEvent(new TestEvent());
     }
 
     // Example event
