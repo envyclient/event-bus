@@ -1,12 +1,12 @@
 package me.ihaq.eventmanager;
 
 import me.ihaq.eventmanager.data.EventData;
-import me.ihaq.eventmanager.listener.EventTarget;
 import me.ihaq.eventmanager.listener.EventListener;
+import me.ihaq.eventmanager.listener.EventTarget;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,64 +14,65 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EventManager {
 
-    //TODO -> Documentation
-
     private final Map<Class<? extends Event>, List<EventData>> registryMap = new HashMap<>();
 
     @SuppressWarnings("unchecked")
-    public void register(EventListener... eventListeners) {
+    public synchronized void register(EventListener... eventListeners) {
 
         // looping through all the methods in the eventListeners and adding them to registryMap if they are valid
-        Arrays.stream(eventListeners)
-                .forEach(eventListener -> Arrays.stream(eventListener.getClass().getDeclaredMethods())
-                        .filter(this::isMethodValid)
-                        .forEach(method -> {
+        for (EventListener eventListener : eventListeners) {
+            for (Method method : eventListener.getClass().getDeclaredMethods()) {
+                if (method.getParameterTypes().length == 1
+                        && method.isAnnotationPresent(EventTarget.class)
+                        && Event.class.isAssignableFrom(method.getParameterTypes()[0])) {
 
-                            if (!method.isAccessible())
-                                method.setAccessible(true);
+                    method.setAccessible(true);
 
-                            Class<? extends Event> clazz = (Class<? extends Event>) method.getParameterTypes()[0];
-                            EventData eventData = new EventData(eventListener, method, method.getAnnotation(EventTarget.class).value());
+                    Class<? extends Event> clazz = (Class<? extends Event>) method.getParameterTypes()[0];
+                    EventData eventData = new EventData(eventListener, method, method.getAnnotation(EventTarget.class).value());
 
-                            List<EventData> list = registryMap.getOrDefault(clazz, new CopyOnWriteArrayList<>());
+                    List<EventData> list = registryMap.getOrDefault(clazz, new CopyOnWriteArrayList<>());
 
-                            if (!list.contains(eventData))
-                                list.add(eventData);
+                    if (!list.contains(eventData)) {
+                        list.add(eventData);
+                    }
 
-                            registryMap.put(clazz, list);
-                        }));
+                    registryMap.put(clazz, list);
+                }
+            }
+        }
 
         // sorting the registry map
-        registryMap.values()
-                .forEach(eventDataList -> eventDataList.sort(((o1, o2) -> (o1.getPriority().getValue() - o2.getPriority().getValue()))));
+        for (List<EventData> eventDataList : registryMap.values()) {
+            eventDataList.sort(Comparator.comparingInt(o -> o.getPriority().getValue()));
+        }
     }
 
-    public void unregister(EventListener... eventListeners) {
-        Arrays.stream(eventListeners)
-                .forEach(eventListener -> registryMap.values()
-                        .forEach(eventDataList -> eventDataList.removeIf(field -> field.getEventListener() == eventListener)));
+    public synchronized void unregister(EventListener... eventListeners) {
+
+        for (List<EventData> eventDataList : registryMap.values()) {
+            for (EventListener eventListener : eventListeners) {
+                eventDataList.removeIf(field -> field.getEventListener() == eventListener);
+            }
+        }
 
         // cleaning up the registryMap by removing any empty lists
-        registryMap.entrySet()
-                .removeIf(hashSetEntry -> hashSetEntry.getValue().isEmpty());
+        registryMap.entrySet().removeIf(hashSetEntry -> hashSetEntry.getValue().isEmpty());
     }
 
-    private boolean isMethodValid(Method method) {
-        return method.getParameterTypes().length == 1 && method.isAnnotationPresent(EventTarget.class) && Event.class.isAssignableFrom(method.getParameterTypes()[0]);
-    }
-
-    public void callEvent(Event event) {
+    public synchronized void callEvent(Event event) {
         List<EventData> dataList = registryMap.get(event.getClass());
 
-        if (dataList == null)
+        if (dataList == null) {
             return;
+        }
 
-        dataList.forEach(data -> {
+        for (EventData eventData : dataList) {
             try {
-                data.getMethod().invoke(data.getEventListener(), event);
+                eventData.getMethod().invoke(eventData.getEventListener(), event);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
-        });
+        }
     }
 }
