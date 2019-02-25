@@ -1,10 +1,9 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg) ](LICENSE)
 
-# EventManager
-
+# event-manager
 A simple Java event manager.
 
-## Creating an event
+## Creating
 
 ```java
     // Normal event
@@ -47,7 +46,7 @@ A simple Java event manager.
     }
 ```
 
-## Listening for an event
+## Listening
 ```java
 public class Main {
 
@@ -81,7 +80,7 @@ public class Main {
 }
 ```
 
-## Calling an event
+## Calling
 ```java
 public class Main {
 
@@ -97,30 +96,16 @@ public class Main {
 ```
 
 ## Download
-
-#### Maven
 ```xml
 <repository>
-    <id>ihaq-maven</id>
-    <url>http://maven.ihaq.me/libs-maven/</url>
+   <id>maven-public</id>
+   <url>http://nexus.ihaq.me/repository/maven-public/</url>
 </repository>
-
+```
+```xml
 <dependency>
     <groupId>me.ihaq</groupId>
     <artifactId>event-manager</artifactId>
     <version>1.0</version>
 </dependency>
-```
-
-#### Gradle
-```gradle
-repositories {
-    maven {
-        url "http://maven.ihaq.me/libs-maven/"
-    }
-}
-
-dependencies {
-    compile 'me.ihaq:event-manager:1.0'
-}
 ```
