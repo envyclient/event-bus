@@ -1,4 +1,5 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg) ](LICENSE)
+[![](https://jitpack.io/v/haq/event-manager.svg)](https://jitpack.io/#haq/event-manager)
 
 # event-manager
 A simple Java event manager.
@@ -93,19 +94,4 @@ public class Main {
     }
 
 }
-```
-
-## Download
-```xml
-<repository>
-   <id>maven-public</id>
-   <url>http://nexus.ihaq.me/repository/maven-public/</url>
-</repository>
-```
-```xml
-<dependency>
-    <groupId>me.ihaq</groupId>
-    <artifactId>event-manager</artifactId>
-    <version>1.0</version>
-</dependency>
 ```
