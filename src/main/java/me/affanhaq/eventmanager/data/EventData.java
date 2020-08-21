@@ -1,6 +1,7 @@
-package me.ihaq.eventmanager.data;
+package me.affanhaq.eventmanager.data;
 
-import me.ihaq.eventmanager.listener.EventListener;
+import me.affanhaq.eventmanager.listener.EventListener;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -11,20 +12,23 @@ public class EventData {
     private Method method;
     private EventPriority priority;
 
-    public EventData(EventListener eventListener, Method method, EventPriority priority) {
+    public EventData(@NotNull EventListener eventListener, @NotNull Method method, @NotNull EventPriority priority) {
         this.eventListener = eventListener;
         this.method = method;
         this.priority = priority;
     }
 
+    @NotNull
     public EventListener getEventListener() {
         return eventListener;
     }
 
+    @NotNull
     public Method getMethod() {
         return method;
     }
 
+    @NotNull
     public EventPriority getPriority() {
         return priority;
     }
