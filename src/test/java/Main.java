@@ -1,7 +1,7 @@
-import me.ihaq.eventmanager.Event;
-import me.ihaq.eventmanager.EventManager;
-import me.ihaq.eventmanager.listener.EventListener;
-import me.ihaq.eventmanager.listener.EventTarget;
+import me.affanhaq.eventmanager.Event;
+import me.affanhaq.eventmanager.EventManager;
+import me.affanhaq.eventmanager.listener.EventListener;
+import me.affanhaq.eventmanager.listener.EventTarget;
 
 public class Main {
 

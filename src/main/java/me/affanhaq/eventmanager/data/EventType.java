@@ -1,4 +1,4 @@
-package me.ihaq.eventmanager.data;
+package me.affanhaq.eventmanager.data;
 
 public enum EventType {
     PRE,

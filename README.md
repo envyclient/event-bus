@@ -7,44 +7,43 @@ A simple Java event manager.
 ## Creating
 
 ```java
-    // Normal event
-    public class TestEvent extends Event  {
-    }
+// Normal event
+public class TestEvent extends Event  {
+}
 ```
 
 ```java
-    // Cancellable event
-    public class TestEvent extends Event implements Cancellable {
+// Cancellable event
+public class TestEvent extends Event implements Cancellable {
 
-    private boolean cancelled;
+private boolean cancelled;
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
+@Override
+public boolean isCancelled() {
+    return cancelled;
+}
 
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
-    }
-    
+@Override
+public void setCancelled(boolean cancelled) {
+    this.cancelled = cancelled;
+}
 ```
 
 ```java
-    // Type event, can be PRE or POST
-    public class TestEvent extends Event implements Type {
+// Type event, can be PRE or POST
+public class TestEvent extends Event implements Type {
 
-        private EventType type;
+    private EventType type;
 
-        public TestEvent(EventType type) {
-            this.type = type;
-        }
-
-        @Override
-        public EventType getType() {
-            return type;
-        }
+    public TestEvent(EventType type) {
+        this.type = type;
     }
+
+    @Override
+    public EventType getType() {
+        return type;
+    }
+}
 ```
 
 ## Listening
@@ -94,4 +93,24 @@ public class Main {
     }
 
 }
+```
+
+## Download
+#### Repository
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+#### Dependency
+```xml
+<dependency>
+    <groupId>com.github.haq</groupId>
+    <artifactId>event-manager</artifactId>
+    <version>VERSION_NUMBER</version>
+</dependency>
 ```

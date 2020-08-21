@@ -1,8 +1,9 @@
-package me.ihaq.eventmanager;
+package me.affanhaq.eventmanager;
 
-import me.ihaq.eventmanager.data.EventData;
-import me.ihaq.eventmanager.listener.EventListener;
-import me.ihaq.eventmanager.listener.EventTarget;
+import me.affanhaq.eventmanager.data.EventData;
+import me.affanhaq.eventmanager.listener.EventListener;
+import me.affanhaq.eventmanager.listener.EventTarget;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,8 +17,7 @@ public class EventManager {
 
     private final Map<Class<? extends Event>, List<EventData>> registryMap = new HashMap<>();
 
-    @SuppressWarnings("unchecked")
-    public synchronized void register(EventListener... eventListeners) {
+    public synchronized void register(@NotNull EventListener... eventListeners) {
 
         // looping through all the methods in the eventListeners and adding them to registryMap if they are valid
         for (EventListener eventListener : eventListeners) {
@@ -28,6 +28,7 @@ public class EventManager {
 
                     method.setAccessible(true);
 
+                    @SuppressWarnings("unchecked")
                     Class<? extends Event> clazz = (Class<? extends Event>) method.getParameterTypes()[0];
                     EventData eventData = new EventData(eventListener, method, method.getAnnotation(EventTarget.class).value());
 
@@ -44,11 +45,13 @@ public class EventManager {
 
         // sorting the registry map
         for (List<EventData> eventDataList : registryMap.values()) {
-            eventDataList.sort(Comparator.comparingInt(o -> o.getPriority().getValue()));
+            eventDataList.sort(
+                    Comparator.comparingInt(o -> o.getPriority().getValue())
+            );
         }
     }
 
-    public synchronized void unregister(EventListener... eventListeners) {
+    public synchronized void unregister(@NotNull EventListener... eventListeners) {
 
         for (List<EventData> eventDataList : registryMap.values()) {
             for (EventListener eventListener : eventListeners) {
@@ -60,7 +63,7 @@ public class EventManager {
         registryMap.entrySet().removeIf(hashSetEntry -> hashSetEntry.getValue().isEmpty());
     }
 
-    public synchronized void callEvent(Event event) {
+    public synchronized void callEvent(@NotNull Event event) {
         List<EventData> dataList = registryMap.get(event.getClass());
 
         if (dataList == null) {
