@@ -6,7 +6,7 @@ public enum EventPriority {
     MEDIUM((byte) 1),
     HIGH((byte) 2);
 
-    private byte value;
+    private final byte value;
 
     EventPriority(byte value) {
         this.value = value;

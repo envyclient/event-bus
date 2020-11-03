@@ -6,11 +6,11 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-public class EventData {
+public final class EventData {
 
-    private EventListener eventListener;
-    private Method method;
-    private EventPriority priority;
+    private final EventListener eventListener;
+    private final Method method;
+    private final EventPriority priority;
 
     public EventData(@NotNull EventListener eventListener, @NotNull Method method, @NotNull EventPriority priority) {
         this.eventListener = eventListener;

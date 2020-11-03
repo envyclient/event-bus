@@ -7,17 +7,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class EventManager {
+public class EventBus {
 
     private final Map<Class<? extends Event>, List<EventData>> registryMap = new HashMap<>();
 
-    public synchronized void register(@NotNull EventListener... eventListeners) {
+    public void register(@NotNull EventListener... eventListeners) {
 
         // looping through all the methods in the eventListeners and adding them to registryMap if they are valid
         for (EventListener eventListener : eventListeners) {
@@ -30,9 +27,13 @@ public class EventManager {
 
                     @SuppressWarnings("unchecked")
                     Class<? extends Event> clazz = (Class<? extends Event>) method.getParameterTypes()[0];
-                    EventData eventData = new EventData(eventListener, method, method.getAnnotation(EventTarget.class).value());
+                    EventData eventData = new EventData(
+                            eventListener,
+                            method,
+                            method.getAnnotation(EventTarget.class).value()
+                    );
 
-                    List<EventData> list = registryMap.getOrDefault(clazz, new CopyOnWriteArrayList<>());
+                    List<EventData> list = registryMap.getOrDefault(clazz, new ArrayList<>());
 
                     if (!list.contains(eventData)) {
                         list.add(eventData);
@@ -51,7 +52,7 @@ public class EventManager {
         }
     }
 
-    public synchronized void unregister(@NotNull EventListener... eventListeners) {
+    public void unregister(@NotNull EventListener... eventListeners) {
 
         for (List<EventData> eventDataList : registryMap.values()) {
             for (EventListener eventListener : eventListeners) {
@@ -63,7 +64,7 @@ public class EventManager {
         registryMap.entrySet().removeIf(hashSetEntry -> hashSetEntry.getValue().isEmpty());
     }
 
-    public synchronized void callEvent(@NotNull Event event) {
+    public void callEvent(@NotNull Event event) {
         List<EventData> dataList = registryMap.get(event.getClass());
 
         if (dataList == null) {
