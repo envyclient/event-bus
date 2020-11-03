@@ -1,26 +1,22 @@
-package me.affanhaq.eventmanager;
+package com.envyclient.eventbus;
 
-import me.affanhaq.eventmanager.data.EventData;
-import me.affanhaq.eventmanager.listener.EventListener;
-import me.affanhaq.eventmanager.listener.EventTarget;
+import com.envyclient.eventbus.data.EventData;
+import com.envyclient.eventbus.listener.EventListener;
+import com.envyclient.eventbus.listener.EventTarget;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.*;
 
-public class EventManager {
+public final class EventBus {
 
     private final Map<Class<? extends Event>, List<EventData>> registryMap = new HashMap<>();
 
-    public synchronized void register(@NotNull EventListener... eventListeners) {
+    public void register(@NotNull com.envyclient.eventbus.listener.EventListener... eventListeners) {
 
         // looping through all the methods in the eventListeners and adding them to registryMap if they are valid
-        for (EventListener eventListener : eventListeners) {
+        for (com.envyclient.eventbus.listener.EventListener eventListener : eventListeners) {
             for (Method method : eventListener.getClass().getDeclaredMethods()) {
                 if (method.getParameterTypes().length == 1
                         && method.isAnnotationPresent(EventTarget.class)
@@ -30,9 +26,13 @@ public class EventManager {
 
                     @SuppressWarnings("unchecked")
                     Class<? extends Event> clazz = (Class<? extends Event>) method.getParameterTypes()[0];
-                    EventData eventData = new EventData(eventListener, method, method.getAnnotation(EventTarget.class).value());
+                    EventData eventData = new EventData(
+                            eventListener,
+                            method,
+                            method.getAnnotation(EventTarget.class).value()
+                    );
 
-                    List<EventData> list = registryMap.getOrDefault(clazz, new CopyOnWriteArrayList<>());
+                    List<EventData> list = registryMap.getOrDefault(clazz, new ArrayList<>());
 
                     if (!list.contains(eventData)) {
                         list.add(eventData);
@@ -51,7 +51,7 @@ public class EventManager {
         }
     }
 
-    public synchronized void unregister(@NotNull EventListener... eventListeners) {
+    public void unregister(@NotNull com.envyclient.eventbus.listener.EventListener... eventListeners) {
 
         for (List<EventData> eventDataList : registryMap.values()) {
             for (EventListener eventListener : eventListeners) {
@@ -63,7 +63,7 @@ public class EventManager {
         registryMap.entrySet().removeIf(hashSetEntry -> hashSetEntry.getValue().isEmpty());
     }
 
-    public synchronized void callEvent(@NotNull Event event) {
+    public void callEvent(@NotNull Event event) {
         List<EventData> dataList = registryMap.get(event.getClass());
 
         if (dataList == null) {

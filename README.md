@@ -1,34 +1,38 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg) ](LICENSE)
-[![](https://jitpack.io/v/haq/event-manager.svg)](https://jitpack.io/#haq/event-manager)
+[![](https://jitpack.io/v/envyclient/event-bus.svg)](https://jitpack.io/#envyclient/event-bus)
 
-# event-manager
-A simple Java event manager.
+# event-bus
+The event system used in Envy Client.
 
 ## Creating
 
+#### Basic
 ```java
 // Normal event
 public class TestEvent extends Event  {
 }
 ```
 
+#### Cancellable
 ```java
 // Cancellable event
 public class TestEvent extends Event implements Cancellable {
 
-private boolean cancelled;
-
-@Override
-public boolean isCancelled() {
-    return cancelled;
-}
-
-@Override
-public void setCancelled(boolean cancelled) {
-    this.cancelled = cancelled;
+    private boolean cancelled;
+    
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+    
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 }
 ```
 
+#### Type
 ```java
 // Type event, can be PRE or POST
 public class TestEvent extends Event implements Type {
@@ -46,19 +50,38 @@ public class TestEvent extends Event implements Type {
 }
 ```
 
-## Listening
+#### Direction
+```java
+// Type event, can be PRE or POST
+public class TestEvent extends Event implements Direction {
+
+    private EventDirection direction;
+
+    public EventDirection(EventDirection direction) {
+        this.direction = direction;
+    }
+
+    @Override
+    public EventDirection getDirection() {
+        return direction;
+    }
+}
+```
+
+## Listening & Calling
 ```java
 public class Main {
 
     public static void main(String[] args) {
 
-        EventManager eventManager = new EventManager();
-
+        EventBus eventBus = new EventBus();
         Test test = new Test();
 
         // registering
         eventManager.register(test);
 
+        eventBus.callEvent(new TestEvent());
+            
         // un-registering
         eventManager.unregister(test);
     }
@@ -71,21 +94,6 @@ public class Main {
             System.out.println("test");
         }
 
-    }
-
-    // Example event
-    public class TestEvent extends Event  {
-    }
-
-}
-```
-
-## Calling
-```java
-public class Main {
-
-    public static void main(String[] args) {
-       new EventManager().callEvent(new TestEvent());
     }
 
     // Example event
@@ -109,8 +117,8 @@ public class Main {
 #### Dependency
 ```xml
 <dependency>
-    <groupId>com.github.haq</groupId>
-    <artifactId>event-manager</artifactId>
+    <groupId>com.github.envyclient</groupId>
+    <artifactId>event-bus</artifactId>
     <version>VERSION_NUMBER</version>
 </dependency>
 ```
