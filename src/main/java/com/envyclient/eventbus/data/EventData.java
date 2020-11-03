@@ -1,6 +1,6 @@
-package me.affanhaq.eventmanager.data;
+package com.envyclient.eventbus.data;
 
-import me.affanhaq.eventmanager.listener.EventListener;
+import com.envyclient.eventbus.listener.EventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;

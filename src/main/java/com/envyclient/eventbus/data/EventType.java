@@ -1,4 +1,4 @@
-package me.affanhaq.eventmanager.data;
+package com.envyclient.eventbus.data;
 
 public enum EventType {
     PRE,

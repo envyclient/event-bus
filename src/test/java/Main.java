@@ -1,10 +1,10 @@
-import me.affanhaq.eventmanager.Event;
-import me.affanhaq.eventmanager.EventBus;
-import me.affanhaq.eventmanager.data.EventDirection;
-import me.affanhaq.eventmanager.listener.EventListener;
-import me.affanhaq.eventmanager.listener.EventTarget;
-import me.affanhaq.eventmanager.type.Cancellable;
-import me.affanhaq.eventmanager.type.Direction;
+import com.envyclient.eventbus.Event;
+import com.envyclient.eventbus.EventBus;
+import com.envyclient.eventbus.data.EventDirection;
+import com.envyclient.eventbus.listener.EventListener;
+import com.envyclient.eventbus.listener.EventTarget;
+import com.envyclient.eventbus.type.Cancellable;
+import com.envyclient.eventbus.type.Direction;
 
 public class Main {
 

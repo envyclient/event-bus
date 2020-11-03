@@ -1,4 +1,4 @@
-package me.affanhaq.eventmanager.type;
+package com.envyclient.eventbus.type;
 
 public interface Cancellable {
 

@@ -1,6 +1,6 @@
-package me.affanhaq.eventmanager.listener;
+package com.envyclient.eventbus.listener;
 
-import me.affanhaq.eventmanager.data.EventPriority;
+import com.envyclient.eventbus.data.EventPriority;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

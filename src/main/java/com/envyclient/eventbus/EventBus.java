@@ -1,23 +1,22 @@
-package me.affanhaq.eventmanager;
+package com.envyclient.eventbus;
 
-import me.affanhaq.eventmanager.data.EventData;
-import me.affanhaq.eventmanager.listener.EventListener;
-import me.affanhaq.eventmanager.listener.EventTarget;
+import com.envyclient.eventbus.data.EventData;
+import com.envyclient.eventbus.listener.EventListener;
+import com.envyclient.eventbus.listener.EventTarget;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-public class EventBus {
+public final class EventBus {
 
     private final Map<Class<? extends Event>, List<EventData>> registryMap = new HashMap<>();
 
-    public void register(@NotNull EventListener... eventListeners) {
+    public void register(@NotNull com.envyclient.eventbus.listener.EventListener... eventListeners) {
 
         // looping through all the methods in the eventListeners and adding them to registryMap if they are valid
-        for (EventListener eventListener : eventListeners) {
+        for (com.envyclient.eventbus.listener.EventListener eventListener : eventListeners) {
             for (Method method : eventListener.getClass().getDeclaredMethods()) {
                 if (method.getParameterTypes().length == 1
                         && method.isAnnotationPresent(EventTarget.class)
@@ -52,7 +51,7 @@ public class EventBus {
         }
     }
 
-    public void unregister(@NotNull EventListener... eventListeners) {
+    public void unregister(@NotNull com.envyclient.eventbus.listener.EventListener... eventListeners) {
 
         for (List<EventData> eventDataList : registryMap.values()) {
             for (EventListener eventListener : eventListeners) {
